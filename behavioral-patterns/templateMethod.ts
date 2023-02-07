@@ -1,53 +1,47 @@
-abstract class AbstractClass {
-
-    public templateMethod(): void {
-        this.baseOperation1();
-        this.requiredOperations1();
-        this.baseOperation2();
-        this.requiredOperation2();
-        this.baseOperation3();
+abstract class TestTemplate {
+    test() {
+        this.setup();
+        this.execute();
+        this.teardown();
     }
 
-    protected baseOperation1(): void {
-        console.log("AbstractClassのコメント:仕事の大半は自分がやっている")
-    }
+    abstract setup(): void;
+    abstract execute(): void;
 
-    protected baseOperation2(): void {
-        console.log("AbstractClassのコメント:しかし、しかし、サブクラスでいくつかの操作をオーバーライドするようにしました。")
-    }
-
-    protected baseOperation3(): void {
-        console.log("AbstractClassのコメント:でも、とにかく仕事の大半は私がやっています")
-    }
-
-    protected abstract requiredOperations1(): void;
-
-    protected abstract requiredOperation2(): void;
-}
-
-class ConcreteClass1 extends AbstractClass {
-    protected requiredOperations1(): void {
-        console.log("ConcreteClass1 のコメント： Operation1 を実装した。")
-    }
-
-    protected requiredOperation2(): void {
-        console.log("ConcreteClass1 のコメント： Operation2 を実装した。")
+    teardown() {
+        console.log("teardown")
     }
 }
 
-class ConcreteClass2 extends AbstractClass {
-    protected requiredOperations1(): void {
-        console.log("ConcreteClass2 のコメント： Operation1 を実装した。")
+class ItemServiceTest extends TestTemplate {
+    setup() {
+       console.log("setup: ItemServiceTest")
     }
 
-    protected requiredOperation2(): void {
-        console.log("ConcreteClass2 のコメント： Operation2 を実装した。")
+    execute() {
+        console.log("execute: ItemServiceTest")
     }
 }
 
-function clientCode(abstractClass: AbstractClass) {
-    abstractClass.templateMethod();
+class UserServiceTest extends TestTemplate {
+    setup() {
+        console.log("setup: UserServiceTest")
+    }
+
+    execute() {
+        console.log("execute: UserServiceTest")
+    }
 }
 
-clientCode(new ConcreteClass1());
-clientCode(new ConcreteClass2());
+function client(testTemplate: TestTemplate) {
+    testTemplate.test();
+}
+
+const itemTest = new ItemServiceTest();
+const userTest = new UserServiceTest();
+
+client(itemTest);
+console.log("####################")
+client(userTest);
+
+export {}
