@@ -1,27 +1,29 @@
-class Singleton {
-    private static instance: Singleton;
+class Logger {
+    private static instance: Logger;
 
-    private constructor() {}
-
-    public static getInstance(): Singleton {
-        if (!Singleton.instance) {
-            Singleton.instance = new Singleton();
+    static getInstance() {
+        if (!this.instance) {
+            this.instance = new Logger();
         }
-
-        return Singleton.instance;
+        return this.instance
     }
-}
+
+    output(content: string) {
+        const now = new Date();
+        console.log(`${now.toLocaleString('ja-JP')}: ${content}`)
+    }
+};
+
+class Test {};
 
 function main() {
-    const s1 = Singleton.getInstance()
-    const s2 = Singleton.getInstance()
+    const test1 = new Test();
+    const test2 = new Test();
+    console.log('TestClass:', test1 === test2);
 
-    if (s1 === s2) {
-        console.log(true)
-    }else {
-        console.log(false)
-    }
+    const logger1 = Logger.getInstance();
+    const logger2 = Logger.getInstance();
+    console.log('LoggerClass:', logger1 === logger2);
 }
 
 main();
-
